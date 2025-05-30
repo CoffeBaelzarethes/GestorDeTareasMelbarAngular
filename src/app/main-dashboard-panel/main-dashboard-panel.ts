@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TaskContainer } from '../task-container/task-container';
 import { GruposService } from '../grupos-service';
 import { Grupo } from '../../models/grupo';
@@ -17,7 +17,7 @@ export class MainDashboardPanel implements OnInit {
   loaded: boolean;
   grupos!: Grupo[];
 
-  constructor(private gruposService: GruposService, private zone: NgZone) {
+  constructor(private gruposService: GruposService, private zone: NgZone, private cdr: ChangeDetectorRef) {
      this.loaded = false;
   }
 
@@ -27,6 +27,7 @@ export class MainDashboardPanel implements OnInit {
         this.grupos = grupos;
         this.loaded = true;
       });
+      this.cdr.detectChanges();
       console.log(grupos);
     });
 
