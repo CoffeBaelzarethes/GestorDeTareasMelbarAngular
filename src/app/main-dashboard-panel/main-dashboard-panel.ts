@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TaskContainer } from '../task-container/task-container';
 import { GruposService } from '../grupos-service';
-import { Grupo } from '../../models/grupo';
+import { Grupo, GrupoCreateDTO } from '../../models/grupo';
 import { CommonModule } from '@angular/common';
 import { NgZone } from '@angular/core';
 
@@ -35,15 +35,11 @@ export class MainDashboardPanel implements OnInit {
   }
 
   onDeleteGroup(group: Grupo) {
-    //this.grupos = this.gruposService.deleteGrupo(group);
+    this.gruposService.deleteGrupo(group);
   }
 
   tryToCreateGroup(): void {
-    /*this.grupos = this.gruposService.addGrupo({ 
-      id: this.grupos.length, 
-      nombre: "Prueba", 
-      Proyecto_IdProyecto: 1 
-    });*/
+    this.gruposService.addGrupo({ nombre: "Nuevo Grupo", Proyecto_IdProyecto: 1 });
   }
 
   trackByGrupoId(index: number, grupo: Grupo): number {

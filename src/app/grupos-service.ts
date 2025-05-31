@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit, inject } from '@angular/core';
-import { Grupo } from '../models/grupo';
+import { Grupo, GrupoCreateDTO } from '../models/grupo';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { constants } from './constants';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class GruposService implements OnInit {
   }*/
 
   cargarGrupos(): void {
-    this.httpClient.get<any[]>('http://localhost:5144/api/grupo')
+    this.httpClient.get<any[]>(constants.apiUrl + "/api/grupo")
       .pipe(
         map(grupos => grupos.map(g => ({
           id: g.idGrupo,
@@ -50,29 +51,30 @@ export class GruposService implements OnInit {
   }
 
   deleteGrupo(group: Grupo): void {
-    this.httpClient.delete(`http://localhost:5144/api/grupo/${group.id}`)
-      .pipe(
-        tap(() => {
-          const gruposActuales = this.gruposSubject.getValue();
-          const actualizados = gruposActuales.filter(g => g.id !== group.id);
-          this.gruposSubject.next(actualizados);
-        })
-      ).subscribe();
+      this.httpClient.delete(`${constants.apiUrl}/api/grupo/${group.id}`).subscribe({
+      next: () => {
+        const actuales = this.gruposSubject.getValue();
+        const actualizados = actuales.filter(g => g.id !== group.id);
+        this.gruposSubject.next(actualizados);
+      },
+      error: err => {
+        console.error('Error al eliminar el grupo:', err);
+      }
+    });
   }
 
-  addGrupo(group: Grupo): void {
-    this.httpClient.post<any>('http://localhost:5144/api/grupo', group)
-      .pipe(
-        map(g => ({
-          id: g.idGrupo,
-          nombre: g.nombre,
-          Proyecto_IdProyecto: g.proyecto_IdProyecto
-        })),
-        tap(nuevoGrupo => {
-          const gruposActuales = this.gruposSubject.getValue();
-          this.gruposSubject.next([...gruposActuales, nuevoGrupo]);
-        })
-      ).subscribe();
+  addGrupo(group: GrupoCreateDTO): void {
+    this.httpClient.post<any>(constants.apiUrl + "/api/grupo", group).pipe(
+    map(g => ({
+      id: g.idGrupo, // ← el backend lo devuelve con ID ya generado
+      nombre: g.nombre,
+      Proyecto_IdProyecto: g.proyecto_IdProyecto
+    })),
+    tap(nuevoGrupo => {
+      const actuales = this.gruposSubject.getValue();
+      this.gruposSubject.next([...actuales, nuevoGrupo]);
+    })
+    ).subscribe();
   }
 
   updateGrupo(groupId: number, group: Grupo) {
