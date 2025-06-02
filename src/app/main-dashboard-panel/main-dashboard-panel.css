@@ -8,6 +8,19 @@
     color: #ffffff;
 }
 
+.horizontal-container {
+    display: flex;
+    gap: 10px; /* Optional: Adds spacing between items */
+}
+
+.small-left-margin {
+    margin-left: 10px;
+}
+
+.small-top-margin {
+    margin-top: 4px;
+}
+
 .icon-btn {
     background: none;
     border: none;
