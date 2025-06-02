@@ -15,7 +15,7 @@
     <!-- Grupos -->
     <div *ngIf="!loaded">Cargando grupos...</div>
     <div *ngIf="loaded">
-        @for (grupo of grupos; track $index) {
+        @for (grupo of grupos; track grupo.id) {
             <app-task-container [grupo]=grupo (delete)="onDeleteGroup($event)"></app-task-container>
         }
         <!--<ng-container *ngFor="let grupo of grupos; trackBy: trackByGrupoId">

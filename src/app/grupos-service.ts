@@ -77,8 +77,21 @@ export class GruposService implements OnInit {
     ).subscribe();
   }
 
-  updateGrupo(groupId: number, group: Grupo) {
-    
+  updateGrupo(groupId: number, group: GrupoCreateDTO) {
+    this.httpClient.put<any>(constants.apiUrl + "/api/grupo/" + groupId, group).pipe(
+      map(g => ({
+        id: g.idGrupo,
+        nombre: g.nombre,
+        Proyecto_IdProyecto: g.proyecto_IdProyecto
+      })),
+      tap(actualizadoGrupo => {
+        const actuales = this.gruposSubject.getValue();
+        const actualizados = actuales.map(grupo =>
+          grupo.id === actualizadoGrupo.id ? actualizadoGrupo : grupo
+        );
+        this.gruposSubject.next(actualizados);
+      })
+    ).subscribe();
   }
 
 }

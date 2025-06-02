@@ -1,25 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TareasService } from '../tareas-service';
 import { Tarea } from '../../models/tarea';
 import { TareaEstadosService } from '../tarea-estados-service';
 import { Estado } from '../../models/estado';
 import { Grupo } from '../../models/grupo';
+import { GruposService } from '../grupos-service';
 
 @Component({
   selector: 'app-task-container',
   imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './task-container.html',
   styleUrl: './task-container.css',
-  providers: [TareasService, TareaEstadosService, FormBuilder],
+  providers: [GruposService, TareasService, TareaEstadosService, FormBuilder],
 })
 export class TaskContainer implements OnInit {
   httpClient = inject(HttpClient);
   @Input() grupo!: Grupo;
   isExpanded: boolean;
   isValidName: boolean;
+  readyToRender: boolean;
   estado: number;
   tareas: Tarea[];
   estados: Estado[];
@@ -30,14 +32,17 @@ export class TaskContainer implements OnInit {
   @Output() delete: EventEmitter<Grupo> = new EventEmitter();
 
   constructor(
+    private gruposService: GruposService,
     private tareasService: TareasService,
     private estadosService: TareaEstadosService,
+    private cdr: ChangeDetectorRef,
     private fb: FormBuilder
   ) {
-    this.tareas = tareasService.getTareas();
+    this.tareas = [];
     this.estados = estadosService.getEstados();
     this.isExpanded = false;
     this.isValidName = false;
+    this.readyToRender = false;
     this.estado = -1;
 
     this.nameControl = new FormControl('', [
@@ -47,15 +52,27 @@ export class TaskContainer implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formArray = this.fb.array(
-      this.tareasService.tareas.map((t, i) => this.createGroup(t, i))
-    );
+    this.tareasService.tareas$.subscribe(tareas => {
+      setTimeout(() => {
+        this.tareas = tareas.filter(t => t.grupo_idGrupo == this.grupo.id);
+
+        this.formArray = this.fb.array(
+          this.tareas.map(t => this.createGroup(t))
+        );
+
+        this.readyToRender = true;
+
+        this.cdr.detectChanges();
+      });
+    });
+
+    this.tareasService.cargarTareas(); // <-- carga desde la API al iniciar
 
     //this.fetchData();
     this.nameControl.setValue(this.grupo.nombre);
   }
 
-  createGroup(tarea: Tarea, index: number): FormGroup {
+  createGroup(tarea: Tarea): FormGroup {
     var group: FormGroup = this.fb.group({
       taskName: [tarea.nombre, [Validators.required, Validators.minLength(1)]],
       state: [tarea.estado, [Validators.required, Validators.minLength(1)]],
@@ -70,19 +87,55 @@ export class TaskContainer implements OnInit {
     });
 
     group.controls['taskName'].valueChanges.subscribe((value) => {
-      this.tareas[index].nombre = value;
+      this.tareasService.updateTarea(tarea.idTarea, {
+        nombre: value,
+        estado: tarea.estado,
+        vencimiento: tarea.vencimiento,
+        nota: tarea.nota,
+        grupo_idGrupo: tarea.grupo_idGrupo
+      }).subscribe({
+        next: t => console.log("Tarea actualizada", t),
+        error: e => console.error("Error actualizando tarea", e)
+      });
     });
 
     group.controls['state'].valueChanges.subscribe((value) => {
-      this.tareas[index].estado = value;
+      this.tareasService.updateTarea(tarea.idTarea, {
+        nombre: tarea.nombre,
+        estado: value,
+        vencimiento: tarea.vencimiento,
+        nota: tarea.nota,
+        grupo_idGrupo: tarea.grupo_idGrupo
+      }).subscribe({
+        next: t => console.log("Tarea actualizada", t),
+        error: e => console.error("Error actualizando tarea", e)
+      });
     });
 
     group.controls['deathTime'].valueChanges.subscribe((value) => {
-      this.tareas[index].vencimiento = value;
+      this.tareasService.updateTarea(tarea.idTarea, {
+        nombre: tarea.nombre,
+        estado: tarea.estado,
+        vencimiento: value,
+        nota: tarea.nota,
+        grupo_idGrupo: tarea.grupo_idGrupo
+      }).subscribe({
+        next: t => console.log("Tarea actualizada", t),
+        error: e => console.error("Error actualizando tarea", e)
+      });
     });
 
     group.controls['note'].valueChanges.subscribe((value) => {
-      this.tareas[index].nota = value;
+      this.tareasService.updateTarea(tarea.idTarea, {
+        nombre: tarea.nombre,
+        estado: tarea.estado,
+        vencimiento: tarea.vencimiento,
+        nota: value,
+        grupo_idGrupo: tarea.grupo_idGrupo
+      }).subscribe({
+        next: t => console.log("Tarea actualizada", t),
+        error: e => console.error("Error actualizando tarea", e)
+      });
     });
 
     return group;
@@ -101,7 +154,7 @@ export class TaskContainer implements OnInit {
   }
 
   trackById(index: number, tarea: Tarea): number {
-    return tarea.id;
+    return tarea.idTarea;
   }
 
   onLoseFocus(): void {
@@ -121,6 +174,11 @@ export class TaskContainer implements OnInit {
       this.nameControl.setValue(this.grupo.nombre);
     } else {
       this.grupo.nombre = this.nameControl.value;
+      this.gruposService.updateGrupo(this.grupo.id, 
+        { 
+          nombre: this.nameControl.value,
+          Proyecto_IdProyecto: this.grupo.Proyecto_IdProyecto  
+        });
     }
   }
 
@@ -133,20 +191,20 @@ export class TaskContainer implements OnInit {
   }
 
   tryToCreateTask(): void {
-    var tarea: Tarea = {
-      id: Math.floor(Math.random() * 1000),
-      nombre: 'NuevaTarea',
+    this.tareasService.addTarea({
+      nombre: "Nueva Tarea",
       estado: 0,
-    };
-    this.tareas = this.tareasService.addTarea(tarea);
+      grupo_idGrupo: this.grupo.id
+    }).subscribe((nuevaTarea) => {
+      const group: FormGroup = this.createGroup(nuevaTarea);
 
-    const group: FormGroup = this.createGroup(tarea, this.tareas.length - 1);
-
-    this.formArray.push(group);
+      this.formArray.push(group);
+    });
   }
 
   tryToDeleteTask(taskId: number, index: number): void {
-    this.tareas = this.tareasService.deleteTarea(taskId);
-    this.formArray.removeAt(index);
+    this.tareasService.deleteTarea(taskId).subscribe(() => {
+      this.formArray.removeAt(index);
+    });
   }
 }

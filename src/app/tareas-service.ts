@@ -1,45 +1,104 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OnInit, inject } from '@angular/core';
-import { Tarea } from '../models/tarea';
+import { Tarea, TareaCreateDTO } from '../models/tarea';
+import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
+import { constants } from './constants';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class TareasService implements OnInit  {
-
+export class TareasService implements OnInit {
   httpClient = inject(HttpClient);
-  tareas: Tarea[]
+  private tareasSubject = new BehaviorSubject<Tarea[]>([]);
+  tareas$ = this.tareasSubject.asObservable(); // <-- observable que puedes usar en tus componentes
+  tareas: Tarea[];
 
   constructor() {
-    this.tareas = [
-      { id: Math.floor(Math.random() * 1000), nombre: "Estar", estado: 0, vencimiento: new Date('2025-05-29 10:30:00') },
-      { id: Math.floor(Math.random() * 1000), nombre: "Mirar", estado: 2 },
-      { id: Math.floor(Math.random() * 1000), nombre: "Pensar", estado: 3 },
-      { id: Math.floor(Math.random() * 1000), nombre: "Tocar", estado: 1 },
-    ];
+    this.tareas = [];
+  }
+
+  cargarTareas(): void {
+    this.httpClient
+      .get<any[]>(constants.apiUrl + '/api/tareas')
+      .pipe(
+        map((tareas) =>
+          tareas.map((t) => ({
+            idTarea: t.idTarea,
+            nombre: t.nombre,
+            estado: t.estado,
+            vencimiento: t.vencimiento,
+            nota: t.nota,
+            grupo_idGrupo: t.grupo_idGrupo,
+          }))
+        ),
+        tap((tareas) => {
+          this.tareasSubject.next(tareas);
+        })
+      )
+      .subscribe();
+  }
+
+  deleteTarea(tareaId: number): Observable<any> {
+    console.log("TareaId: " + tareaId);
+    return this.httpClient
+      .delete(`${constants.apiUrl}/api/tareas/${tareaId}`)
+      .pipe(
+        tap(() => {
+          const actuales = this.tareasSubject.getValue();
+          const actualizados = actuales.filter((t) => t.idTarea !== tareaId);
+          this.tareasSubject.next(actualizados);
+        }),
+        catchError((err) => {
+          console.error('Error al eliminar la tarea:', err);
+          throw err;
+        })
+      );
+  }
+
+  addTarea(tarea: TareaCreateDTO): Observable<Tarea> {
+    return this.httpClient
+      .post<any>(constants.apiUrl + '/api/tareas', tarea)
+      .pipe(
+        map((t) => ({
+          idTarea: t.idTarea, // ← el backend lo devuelve con ID ya generado
+          nombre: t.nombre,
+          estado: t.estado,
+          vencimient: t.vencimiento,
+          nota: t.nota,
+          grupo_idGrupo: t.grupo_idGrupo,
+        })),
+        tap((nuevoTarea) => {
+          const actuales = this.tareasSubject.getValue();
+          this.tareasSubject.next([...actuales, nuevoTarea]);
+        })
+      );
+  }
+
+  updateTarea(tareaId: number, tarea: TareaCreateDTO): Observable<Tarea> {
+    return this.httpClient.put<any>(constants.apiUrl + '/api/tareas/' + tareaId, tarea)
+      .pipe(
+        map((t) => ({
+          idTarea: t.idTarea,
+          nombre: t.nombre,
+          estado: t.estado,
+          vencimiento: t.vencimiento,
+          nota: t.nota,
+          grupo_idGrupo: t.grupo_idGrupo,
+        })),
+        tap((actualizadoTarea) => {
+          const actuales = this.tareasSubject.getValue();
+          const actualizados = actuales.map((tarea) =>
+            tarea.idTarea === actualizadoTarea.idTarea ? actualizadoTarea : tarea
+          );
+          this.tareasSubject.next(actualizados);
+        })
+      );
   }
 
   getTareas(): Tarea[] {
     return this.tareas;
   }
 
-  addTarea(tarea: Tarea): Tarea[] {
-    this.tareas.push(tarea);
-
-    return this.tareas;
-  }
-
-  updateGrupo(tareaId: number, tarea: Tarea) {
-    
-  }
-
-  deleteTarea(taskId: number): Tarea[] {
-    this.tareas = this.tareas.filter((t) => t.id != taskId);
-    return this.tareas;
-  }
-
-  ngOnInit(): void {
-      
-  }
+  ngOnInit(): void {}
 }
