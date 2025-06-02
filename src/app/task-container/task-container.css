@@ -1,0 +1,157 @@
+.main-panel-text {
+    color: #ffffff;
+}
+
+.horizontal-container {
+    display: flex;
+    gap: 10px; /* Optional: Adds spacing between items */
+}
+
+.side-btn {
+  margin-left: 10px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trash-can {
+    margin-left: 10px;
+}
+
+.task-list th {
+    background-color: #545454;
+    color: white;
+    min-width: 200px;
+}
+
+.task-list td {
+    background-color: #d9d9d9;
+    color: #272727;
+}
+
+.task-list td.no-background {
+    background-color: transparent;
+}
+
+.hidden-checkbox {
+  display: none;
+}
+
+.triangle-toggle {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  padding-top: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+
+  /* Triángulo hacia abajo */
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 8px solid #545454;
+
+  transition: transform 0.2s ease;
+}
+
+/* Cuando el checkbox está activo, rota el triángulo */
+.hidden-checkbox:checked + .triangle-toggle {
+  transform: rotate(180deg); /* apunta hacia arriba */
+}
+
+.hidden-list {
+  display: none;
+}
+
+.visible-list {
+  display: block;
+}
+
+.editable-label {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.editable-label:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.editable-label:hover {
+  cursor: text;
+}
+
+.editable-task-label {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(0, 0, 0);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.editable-task-label:hover {
+  cursor: text;
+}
+
+.editable-task-label:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.editable-combobox-label {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(0, 0, 0);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.editable-combobox-label:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.task-list-container {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.no-background-table-column {
+  background: none;
+  border: none;
+}
+
+/* Controlar la lista si quieres que colapse */
+/*.hidden-checkbox ~ .expandable-list {
+  display: none;
+}
+.hidden-checkbox:checked ~ .expandable-list {
+  display: block;
+}*/
