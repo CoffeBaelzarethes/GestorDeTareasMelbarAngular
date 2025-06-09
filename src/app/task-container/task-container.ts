@@ -40,7 +40,7 @@ export class TaskContainer implements OnInit {
   ) {
     this.tareas = [];
     this.estados = estadosService.getEstados();
-    this.isExpanded = false;
+    this.isExpanded = true;
     this.isValidName = false;
     this.readyToRender = false;
     this.estado = -1;
