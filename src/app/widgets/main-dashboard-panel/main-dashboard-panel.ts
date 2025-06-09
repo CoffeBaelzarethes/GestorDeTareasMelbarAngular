@@ -1,25 +1,27 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { TaskContainer } from '../task-container/task-container';
-import { GruposService } from '../grupos-service';
-import { Grupo, GrupoCreateDTO } from '../../models/grupo';
 import { CommonModule } from '@angular/common';
 import { NgZone } from '@angular/core';
+import { TaskContainer } from '../../task-container/task-container';
+import { GruposService } from '../../grupos-service';
+import { Grupo } from '../../../models/grupo';
 
 @Component({
   selector: 'app-main-dashboard-panel',
+  standalone: true,
   imports: [TaskContainer, CommonModule],
   templateUrl: './main-dashboard-panel.html',
-  styleUrl: './main-dashboard-panel.css',
+  styleUrls: ['./main-dashboard-panel.css'],
   providers: [GruposService]
 })
 export class MainDashboardPanel implements OnInit {
-
-  loaded: boolean;
+  loaded: boolean = false;
   grupos!: Grupo[];
 
-  constructor(private gruposService: GruposService, private zone: NgZone, private cdr: ChangeDetectorRef) {
-     this.loaded = false;
-  }
+  constructor(
+    private gruposService: GruposService,
+    private zone: NgZone,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.gruposService.grupos$.subscribe(grupos => {
@@ -28,10 +30,9 @@ export class MainDashboardPanel implements OnInit {
         this.loaded = true;
       });
       this.cdr.detectChanges();
-      console.log(grupos);
     });
 
-    this.gruposService.cargarGrupos(); // <-- carga desde la API al iniciar
+    this.gruposService.cargarGrupos();
   }
 
   onDeleteGroup(group: Grupo) {
@@ -45,5 +46,4 @@ export class MainDashboardPanel implements OnInit {
   trackByGrupoId(index: number, grupo: Grupo): number {
     return grupo.id;
   }
-
 }

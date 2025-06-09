@@ -1,0 +1,73 @@
+:host {
+  display: flex;
+  flex: 1;
+  height: 100vh;
+  font-family: 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif;
+  
+}
+
+.main-panel-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: #1a1a1a;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  overflow-y: auto;
+}
+
+.main-panel-text {
+  color: #ffffff;
+}
+
+.horizontal-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.small-left-margin {
+  margin-left: 10px;
+}
+
+.small-top-margin {
+  margin-top: 4px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn svg {
+  fill: currentColor;
+}
+
+.icon-btn:hover {
+  color: #ffffff;
+}
+
+.icon-btn::after {
+  color: #474747;
+}
+
+/*.main-panel-body {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+}
+*/

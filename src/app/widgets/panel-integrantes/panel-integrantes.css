@@ -1,0 +1,99 @@
+:host {
+  display: block;
+  padding: 16px 24px;
+  background-color: #d9d9d9;
+  font-family: 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif;
+  color: #1c1c1e;
+  max-width: 100%;
+  border-bottom: 1px solid #e5e5ea;
+}
+
+/* Contenedor principal en fila */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 4px 0;
+}
+
+/* Nombre del proyecto */
+.project-name {
+  font-size: 15px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* Contenedor de integrantes en fila */
+.integrantes {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 1;
+}
+
+/* Estilo de cada integrante */
+.integrante {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d1d6;
+  border-radius: 16px;
+  padding: 2px 10px;
+  font-size: 13px;
+  background-color: #f9f9f9;
+  flex-shrink: 0;
+}
+
+/* Botón eliminar minimal */
+.delete-button {
+  background: none;
+  border: none;
+  color: #888;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+}
+
+.delete-button:hover {
+  color: #ff3b30;
+}
+
+/* Formulario compacto */
+.add-integrante-form {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Input delgado */
+.add-integrante-form input {
+  border: none;
+  border-bottom: 1px solid #d1d1d6;
+  background: transparent;
+  font-size: 13px;
+  padding: 2px 4px;
+  width: 120px;
+}
+
+.add-integrante-form input:focus {
+  outline: none;
+  border-bottom: 1px solid #007aff;
+}
+
+/* Botón texto plano */
+.add-integrante-form button {
+  background: none;
+  border: none;
+  color: #007aff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.add-integrante-form button:disabled {
+  color: #ccc;
+  cursor: default;
+}

@@ -1,0 +1,88 @@
+:host {
+  display: flex;
+  width: 250px;
+  background-color: #2a2a2a;
+  font-family: 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif;
+}
+
+.sidebar {
+  width: 100%;
+  height: 100%;
+  background-color: #111;
+  color: #fff;
+  padding: 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 16px 16px;
+  border-bottom: 1px solid #333;
+}
+
+.sidebar-title-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-title {
+  font-weight: 300;
+  font-size: 1.25rem;
+  text-align: center;
+  color: #fff;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s ease;
+}
+
+.icon-btn:hover {
+  color: #ccc;
+}
+
+.proyecto-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.proyecto-lista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.proyecto-lista li:hover {
+  background-color: #222;
+}
+
+.eliminar-btn {
+  background: none;
+  border: none;
+  color: #f55;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.eliminar-btn:hover {
+  color: #faa;
+}
+
+.panel-proyectos-body {
+  flex: 1;
+  overflow-y: auto;
+}
