@@ -1,4 +1,9 @@
-<p>dashboard workjjjjjjjjjjjjjjjjjjjjjjs!</p>
-<app-panel-integrantes></app-panel-integrantes>
-<app-panel-proyectos></app-panel-proyectos>
-<app-main-dashboard-panel></app-main-dashboard-panel>
+<!-- dashboard.html -->
+<div class="dashboard-container">
+  <app-panel-proyectos (proyectoSeleccionado)="onProyectoSeleccionado($event)"></app-panel-proyectos>
+
+  <div class="panel-integrantes--main-dashboard-panel">
+    <app-panel-integrantes></app-panel-integrantes>
+    <app-main-dashboard-panel></app-main-dashboard-panel>
+  </div>
+</div>

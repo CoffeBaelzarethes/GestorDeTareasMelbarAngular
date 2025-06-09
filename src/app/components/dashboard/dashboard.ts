@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MainDashboardPanel } from '../../widgets/main-dashboard-panel/main-dashboard-panel';
 import { PanelIntegrantes } from '../../widgets/panel-integrantes/panel-integrantes';
 import { PanelProyectos } from '../../widgets/panel-proyectos/panel-proyectos';
@@ -10,5 +10,10 @@ import { PanelProyectos } from '../../widgets/panel-proyectos/panel-proyectos';
   styleUrl: './dashboard.css'
 })
 export class Dashboard {
+  @Input() username : string = "";
+
+onProyectoSeleccionado(nombre: string) {
+  console.log('Proyecto seleccionado:', nombre);
+}
 
 }

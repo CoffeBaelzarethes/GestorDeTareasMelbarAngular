@@ -1,1 +1,17 @@
-<p>panel-proyectos works!</p>
+<div class="sidebar">
+  <div class="sidebar-header">
+  <div class="sidebar-title-wrapper">
+    <span class="sidebar-title">Proyectos</span>
+  </div>
+  <button class="icon-btn" (click)="agregarProyecto()">+</button>
+</div>
+
+  <ul class="proyecto-lista">
+    @for (proyecto of proyectos; track proyecto; let i = $index) {
+      <li (click)="seleccionarProyecto(proyecto)">
+        {{ proyecto }}
+        <button class="eliminar-btn" (click)="eliminarProyecto(i); $event.stopPropagation()">🗑️</button>
+      </li>
+    }
+  </ul>
+</div>

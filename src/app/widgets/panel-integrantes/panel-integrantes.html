@@ -1,1 +1,15 @@
-<p>panel-integrantes works!</p>
+<div class="row">
+  <div class="project-name">{{ nombreProyecto }}</div>
+
+  <div class="integrantes">
+    <div class="integrante" *ngFor="let integrante of integrantes">
+      {{ integrante }}
+      <button class="delete-button" (click)="eliminarIntegrante(integrante)" [attr.aria-label]="'Eliminar ' + integrante">x</button>
+    </div>
+  </div>
+
+  <form class="add-integrante-form" (ngSubmit)="agregarIntegrante()" #form="ngForm">
+    <input type="text" name="nuevo" [(ngModel)]="nuevoIntegrante" required placeholder="NuevoIntegrante" />
+    <button type="submit" [disabled]="!nuevoIntegrante">Agregar</button>
+  </form>
+</div>
