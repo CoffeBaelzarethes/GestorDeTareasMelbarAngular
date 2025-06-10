@@ -7,11 +7,10 @@
 </div>
 
   <ul class="proyecto-lista">
-    @for (proyecto of proyectos; track proyecto; let i = $index) {
-      <li (click)="seleccionarProyecto(proyecto)">
-        {{ proyecto }}
-        <button class="eliminar-btn" (click)="eliminarProyecto(i); $event.stopPropagation()">🗑️</button>
-      </li>
+    @for (proyecto of proyectos; track proyecto.idProyecto; let i = $index) {
+      <app-proyecto-entry [proyecto]="proyecto" 
+        [selectedProyectoEventEmitter]="selectedProyectoEventEmitter"
+        (onDeleteProyectEventEmitter)="onDeleteProyect($event)"></app-proyecto-entry>
     }
   </ul>
 </div>

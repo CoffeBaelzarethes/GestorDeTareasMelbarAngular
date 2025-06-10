@@ -1,0 +1,75 @@
+.horizontal-container {
+    display: flex;
+    justify-content: space-around;
+    /* Adjust spacing between items */
+    align-items: center;
+    /* Align items vertically */
+    padding: 5px;
+}
+
+.editable {
+    background: #2e2e2e;
+}
+
+.non-editable {
+    background: #111;
+}
+
+.entry:hover {
+    background: #1d1d1d;
+}
+
+.non-editable-label {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.non-editable-label:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.non-editable-label:hover {
+    cursor: pointer;
+}
+
+.editable-label {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.editable-label:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.editable-label:hover {
+    cursor: text;
+}
+
+.eliminar-btn {
+    background: none;
+    border: none;
+    color: #f55;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.eliminar-btn:hover {
+    color: #faa;
+}
