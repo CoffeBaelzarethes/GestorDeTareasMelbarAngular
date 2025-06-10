@@ -1,0 +1,9 @@
+<li (click)="seleccionarProyecto(proyecto)" [className]="readonly ? 'non-editable entry' : 'editable entry'">
+    <div class="horizontal-container">
+        <input type="text" id="proyecto_{{ proyecto.idProyecto }}" [formControl]="proyectNameControl" 
+            (keyup.enter)="tryToChangeProyectoName($event, proyecto)" 
+            (blur)="onLoseFocus(proyecto)" [className]="readonly ? 'non-editable-label' : 'editable-label'"
+            (dblclick)="onDoubleClick()" [readOnly]="readonly">
+        <button class="eliminar-btn" (click)="eliminarProyecto(proyecto.idProyecto); $event.stopPropagation()">🗑️</button>
+    </div>
+</li>

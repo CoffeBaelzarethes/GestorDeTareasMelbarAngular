@@ -44,8 +44,7 @@
     @if(readyToRender) {
       @for (tarea of tareas; let i = $index; track tarea.idTarea) {
       <tr [formGroup]="getFormGroup(i)">
-        <td><input type="text" class="editable-task-label" formControlName="taskName" (blur)="onFocusLost(i)"
-            (keydown.enter)="onEnter(i)"></td>
+        <td><input type="text" class="editable-task-label" formControlName="taskName"></td>
         <td>
           <select name="select" formControlName="state" class="editable-combobox-label">
             @for (estado of estados; track $index) {
@@ -53,10 +52,8 @@
             }
           </select>
         </td>
-        <td><input type="datetime-local" class="editable-task-label" formControlName="deathTime" (blur)="onFocusLost($index)"
-            (keydown.enter)="onEnter($index)"></td>
-        <td><input type="text" class="editable-task-label" formControlName="note" (blur)="onFocusLost($index)"
-            (keydown.enter)="onEnter($index)"></td>
+        <td><input type="datetime-local" class="editable-task-label" formControlName="deathTime"></td>
+        <td><input type="text" class="editable-task-label" formControlName="note"></td>
         <td class="no-background">
           <button title="Eliminar tarea" class="icon-btn trash-can" (click)="tryToDeleteTask(tarea.idTarea, $index)">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0,0,256,256">

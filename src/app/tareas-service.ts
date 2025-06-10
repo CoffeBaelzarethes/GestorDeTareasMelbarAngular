@@ -8,7 +8,7 @@ import { constants } from './constants';
 @Injectable({
   providedIn: 'root',
 })
-export class TareasService implements OnInit {
+export class TareasService {
   httpClient = inject(HttpClient);
   private tareasSubject = new BehaviorSubject<Tarea[]>([]);
   tareas$ = this.tareasSubject.asObservable(); // <-- observable que puedes usar en tus componentes
@@ -100,5 +100,4 @@ export class TareasService implements OnInit {
     return this.tareas;
   }
 
-  ngOnInit(): void {}
 }
