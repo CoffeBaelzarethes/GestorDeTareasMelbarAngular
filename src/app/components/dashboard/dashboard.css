@@ -13,3 +13,13 @@
   flex-direction: column;
   flex: 1;
 }
+
+.main-footer {
+  background-color: #111;
+  color: #ccc;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 12px;
+  border-top: 1px solid #333;
+  font-family: 'Helvetica Neue', 'Segoe UI', Roboto, sans-serif;
+}
