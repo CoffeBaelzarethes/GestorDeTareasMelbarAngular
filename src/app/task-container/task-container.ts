@@ -145,14 +145,6 @@ export class TaskContainer implements OnInit {
     return this.formArray.at(i) as FormGroup;
   }
 
-  fetchData(): void {
-    this.httpClient
-      .get('https://localhost:7221/api/tareas')
-      .subscribe((data) => {
-        console.log(data);
-      });
-  }
-
   trackById(index: number, tarea: Tarea): number {
     return tarea.idTarea;
   }
@@ -164,10 +156,6 @@ export class TaskContainer implements OnInit {
       this.grupo.nombre = this.nameControl.value;
     }
   }
-
-  onFocusLost(index: number): void {}
-
-  onEnter(index: number): void {}
 
   tryToChangeName(event: Event): void {
     if (this.nameControl.value.length == 0) {

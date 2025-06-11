@@ -1,5 +1,7 @@
 <div class="dashboard-container">
-  <app-panel-proyectos (proyectoSeleccionado)="onProyectoSeleccionado($event)"></app-panel-proyectos>
+  <app-panel-proyectos [integranteId]="integrante_id" [username]="username"
+    (selectedProyectoEventEmitter)="onSelectProyect($event)"
+    (onDeleteProyectEventEmitter)="onDeleteProyect($event)"></app-panel-proyectos>
 
   <div class="panel-integrantes--main-dashboard-panel">
     <app-panel-integrantes></app-panel-integrantes>

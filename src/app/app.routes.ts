@@ -4,5 +4,5 @@ import { Dashboard } from './components/dashboard/dashboard';
 
 export const routes: Routes = [
     { path: "login", component: Login },
-    { path: "dashboard", component: Dashboard }
+    { path: "dashboard/:id_integrante/:username", component: Dashboard }
 ];

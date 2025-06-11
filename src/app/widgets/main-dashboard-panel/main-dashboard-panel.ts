@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgZone } from '@angular/core';
 import { TaskContainer } from '../../task-container/task-container';
 import { GruposService } from '../../grupos-service';
 import { Grupo } from '../../../models/grupo';
+import { Proyecto } from '../../../models/proyecto';
 
 @Component({
   selector: 'app-main-dashboard-panel',
@@ -14,25 +15,45 @@ import { Grupo } from '../../../models/grupo';
   providers: [GruposService]
 })
 export class MainDashboardPanel implements OnInit {
+
   loaded: boolean = false;
   grupos!: Grupo[];
+  proyect: Proyecto | null = null; 
 
   constructor(
     private gruposService: GruposService,
-    private zone: NgZone,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.gruposService.grupos$.subscribe(grupos => {
-      this.zone.run(() => {
-        this.grupos = grupos;
+      if(this.proyect != null) {
+        this.grupos = [...grupos.filter(g => g.Proyecto_IdProyecto == this.proyect!.idProyecto)];
         this.loaded = true;
-      });
+        //this.cdr.detectChanges();
+
+        console.log("Cargando proyectos");
+      } else {
+        this.loaded = false;
+      }
+
       this.cdr.detectChanges();
     });
+  }
+
+  onSelectProyect(proyect: Proyecto) {
+    this.proyect = proyect;
 
     this.gruposService.cargarGrupos();
+  }
+
+  onDeleteProyect(proyectId: number) {
+    if(this.proyect != null) {
+      if(proyectId == this.proyect.idProyecto) {
+        this.gruposService.cargarGrupos();
+        this.proyect = null;
+      }
+    }
   }
 
   onDeleteGroup(group: Grupo) {
@@ -40,7 +61,9 @@ export class MainDashboardPanel implements OnInit {
   }
 
   tryToCreateGroup(): void {
-    this.gruposService.addGrupo({ nombre: "Nuevo Grupo", Proyecto_IdProyecto: 1 });
+    if(this.proyect != null) {
+      this.gruposService.addGrupo({ nombre: "Nuevo Grupo", Proyecto_IdProyecto: this.proyect.idProyecto });
+    }
   }
 
   trackByGrupoId(index: number, grupo: Grupo): number {

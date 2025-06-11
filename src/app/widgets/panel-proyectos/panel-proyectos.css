@@ -69,19 +69,6 @@
   background-color: #222;
 }
 
-.eliminar-btn {
-  background: none;
-  border: none;
-  color: #f55;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.eliminar-btn:hover {
-  color: #faa;
-}
-
 .panel-proyectos-body {
   flex: 1;
   overflow-y: auto;
