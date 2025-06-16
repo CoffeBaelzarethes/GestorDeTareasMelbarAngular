@@ -49,76 +49,7 @@ export class PanelProyectos implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    /*this.proyectosService.proyectos$.subscribe(proyectos => {
-      console.log(proyectos);
-      this.integrantesService.integrantes$.subscribe(integrantes => {
-        console.log(integrantes);
-        // Intentando encontrar el id del integrante del cual pusieron el username en el login
-        var rawIntegrantes: Integrante[] = integrantes.filter(i => i.idIntegrante 
-          == this.integranteId);
-        var integrante: Integrante;
-
-        console.log("Integrantes filtrados por el id: " + this.integranteId + " y el username: " 
-          + this.username);
-        console.log(rawIntegrantes);
-
-        // Si tenemos a un integrante con el username especificado
-        if(rawIntegrantes.length > 0) {
-          integrante = rawIntegrantes[0];
-          
-          console.log(integrante);
-
-          // Nos suscribimos a la tabla intermedia para que nos notifique cuando cargue sus datos
-          this.integrantesProyectosService.integrantesProyectos$.subscribe(integrantesProyectos => {
-            console.log("IntgrantesProyectos");
-            console.log(integrantesProyectos);
-            // Una vez cargados los datos, filtramos los proyectos que incluyen al integrante
-            var integrantesProyectos = integrantesProyectos.filter(ip => ip.integranteIdIntegrante 
-                == integrante.idIntegrante);
-            // Hacemos un map para tener una lista de puros idProyecto y poder checar con el includes
-            var onlyProyectIds = integrantesProyectos.map(ip => ip.proyectoIdProyecto);
-            
-            // Finalmente hacemos el filter para tener los proyectos que queremos
-            this.proyectos = [...proyectos.filter(p => onlyProyectIds.includes(p.idProyecto))];
-            console.log("Proyectos");
-            console.log(this.proyectos);
-          });
-
-          // Cargamos las tablas intermedias que tengan al id del integrante especificado
-          this.integrantesProyectosService.cargarProyectos(integrante.idIntegrante).subscribe({
-            next: (integranteProyectos) => {
-              this.cdr.detectChanges();
-            },
-            error: (err) => console.log(err)
-          });
-        }
-      });
-
-      setTimeout(() => {
-        this.loaded = true;
-        this.cdr.detectChanges();
-      });
-    });*/
-
-    /*combineLatest([
-      this.proyectosService.proyectos$,
-      this.integrantesService.integrantes$,
-      this.integrantesProyectosService.integrantesProyectos$
-    ]).subscribe(([proyectos, integrantes, integrantesProyectos]) => {
-      const integrante = integrantes.find(i => i.idIntegrante == this.integranteId);
-      if (!integrante) return;
-
-      const ids = integrantesProyectos
-        .filter(ip => ip.integranteIdIntegrante == integrante.idIntegrante)
-        .map(ip => ip.proyectoIdProyecto);
-
-      this.integrantesProyectosService.cargarProyectos(this.integranteId);
-
-      this.proyectos = proyectos.filter(p => ids.includes(p.idProyecto));
-
-      console.log(this.proyectos);
-    });*/
-
+  
     this.integrantesService.integrantes$
       .pipe(
         map((integrantes) =>

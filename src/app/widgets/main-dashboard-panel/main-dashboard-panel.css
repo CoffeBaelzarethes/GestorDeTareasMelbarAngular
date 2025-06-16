@@ -16,10 +16,10 @@
 
 .main-content {
   flex: 1;
-  background-color: #1a1a1a;
-  color: #ffffff;
   overflow-y: auto;
+  max-height: calc(1000vh - 60px); /* Ajusta 60px si tu footer mide eso */
 }
+
 
 .main-panel-text {
   color: #ffffff;
