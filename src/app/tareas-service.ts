@@ -11,7 +11,7 @@ import { constants } from './constants';
 export class TareasService {
   httpClient = inject(HttpClient);
   private tareasSubject = new BehaviorSubject<Tarea[]>([]);
-  tareas$ = this.tareasSubject.asObservable(); // <-- observable que puedes usar en tus componentes
+  tareas$ = this.tareasSubject.asObservable(); 
   tareas: Tarea[];
 
   constructor() {
