@@ -3,12 +3,12 @@
 
   <div class="integrantes">
     <div class="integrante" *ngFor="let integrante of integrantes">
-      {{ integrante }}
-      <button class="delete-button" (click)="eliminarIntegrante(integrante)" [attr.aria-label]="'Eliminar ' + integrante">x</button>
+      {{ integrante.nombre }}
+      <button class="delete-button" (click)="eliminarIntegrante(integrante.nombre)">x</button>
     </div>
   </div>
 
-  <form class="add-integrante-form" (ngSubmit)="agregarIntegrante()" #form="ngForm">
+  <form class="add-integrante-form" (ngSubmit)="agregarIntegrante(nuevoIntegrante)" #form="ngForm">
     <input type="text" name="nuevo" [(ngModel)]="nuevoIntegrante" required placeholder="NuevoIntegrante" />
     <button type="submit" [disabled]="!nuevoIntegrante">Agregar</button>
   </form>

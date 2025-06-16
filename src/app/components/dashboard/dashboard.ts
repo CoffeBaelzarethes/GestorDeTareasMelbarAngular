@@ -17,9 +17,11 @@ export class Dashboard implements OnInit {
   @Input() selectedProyectoEventEmitter!: EventEmitter<Proyecto>;
   @Input() onDeleteProyectEventEmitter!: EventEmitter<number>;
   @ViewChild(MainDashboardPanel) mainDashboardPanel!: MainDashboardPanel;
+  @ViewChild(PanelIntegrantes) panelIntegrantes!: PanelIntegrantes;
 
   integrante_id: number = 0;
   username: string = "";
+  selectedProyecto?: Proyecto;
 
   constructor(
     private route: ActivatedRoute, 
@@ -33,8 +35,12 @@ export class Dashboard implements OnInit {
     this.username = this.route.snapshot.paramMap.get("username")!;
   }
 
+
   onSelectProyect(proyect: Proyecto) {
+    this.selectedProyecto = proyect;
     this.mainDashboardPanel.onSelectProyect(proyect);
+    this.panelIntegrantes.onSelectProyect(proyect);
+    console.log(proyect)
   }
 
   onDeleteProyect(proyectId: number) {

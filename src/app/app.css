@@ -1,5 +1,7 @@
-:host {
-  display: block;
-  height: 100vh;
+/* app.css */
+.main-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Evita que al hacer zoom aparezca espacio por abajo */
   background: #111;
 }

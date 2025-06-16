@@ -10,3 +10,7 @@ export interface IntegranteCreateDTO {
 export interface IntegranteUpdateDTO {
     nombre: string
 }
+
+export interface IntegranteProyectoCreateDTO {
+    nombre: string
+}
